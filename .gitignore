@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#徐国忠自定义
+hita/CV
+hita/DE
+.DS_Store
+*urls*.txt
