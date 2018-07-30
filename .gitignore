@@ -106,5 +106,6 @@ venv.bak/
 #徐国忠自定义
 hita/CV
 hita/DE
+hita/DS
 .DS_Store
 *urls*.txt
