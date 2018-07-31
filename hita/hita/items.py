@@ -17,3 +17,9 @@ class HitaItem(scrapy.Item):
     DE_Type = scrapy.Field()
     DE_Format = scrapy.Field()
     DE_Allow = scrapy.Field()
+
+
+class ExampleItem(scrapy.Item):
+    print 'ExampleItem'
+    Name = scrapy.Field()
+    Desc = scrapy.Field()

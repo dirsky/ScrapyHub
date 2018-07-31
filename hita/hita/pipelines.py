@@ -5,6 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from hita.items import HitaItem
+from hita.items import ExampleItem
 
 class HitaPipeline(object):
     def process_item(self, item, spider):
@@ -12,5 +13,5 @@ class HitaPipeline(object):
         print('--------Pipeline-----------')
         print('--------Pipeline-----------')
         print('--------Pipeline-----------')
-        print(item['DE_Name'])
+        print(item['Name'])
         return item
