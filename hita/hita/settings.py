@@ -15,7 +15,7 @@ SPIDER_MODULES = ['hita.spiders']
 NEWSPIDER_MODULE = 'hita.spiders'
 
 LOG_FILE  ='LOG_FILE.log'
-
+LOG_LEVEL ='INFO'
 #LOG_LEVEL ='ERROR'
 
 
@@ -37,7 +37,7 @@ ROBOTSTXT_OBEY = False
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
