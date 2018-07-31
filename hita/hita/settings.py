@@ -14,6 +14,10 @@ BOT_NAME = 'hita'
 SPIDER_MODULES = ['hita.spiders']
 NEWSPIDER_MODULE = 'hita.spiders'
 
+LOG_FILE  ='LOG_FILE.log'
+
+#LOG_LEVEL ='ERROR'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'hita (+http://www.yourdomain.com)'
