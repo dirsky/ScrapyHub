@@ -9,19 +9,19 @@ sys.setdefaultencoding('utf8')
 
 class HitaSpider(scrapy.Spider):
     name = "e"
-    allowed_domains = ["omaha.org.cn"]
-    home_url = "http://meta.omaha.org.cn"
+    allowed_domains = ["baidu.com"]
+    start_urls = [
+        "http://www.baidu.com",
+    ]
 
     def start_requests(self):
-        urls = []
-
-        urls.append('http://meta.omaha.org.cn/dataSet')
+        self.start_urls.append("http://www.qq.com")
 
         #格式化字符串
         s = 'ss{g}s'
         print s.format(g='k')
 
-        for url in urls:
+        for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
 
@@ -31,6 +31,9 @@ class HitaSpider(scrapy.Spider):
         title = response.xpath('//title/text()').extract_first()
         print title
         print response.url
+        #//div[@class="mine"]
+        # @用来读取属性
+        print response.xpath('//*[@id="su"]/@value').extract_first()
         print "----------parse start----------"
         filename = 'log.txt'
 
