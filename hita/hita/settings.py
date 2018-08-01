@@ -15,7 +15,7 @@ SPIDER_MODULES = ['hita.spiders']
 NEWSPIDER_MODULE = 'hita.spiders'
 
 LOG_FILE  ='LOG_FILE.log'
-LOG_LEVEL ='INFO'
+LOG_LEVEL ='WARNING'
 #LOG_LEVEL ='ERROR'
 
 

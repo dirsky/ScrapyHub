@@ -61,7 +61,7 @@ class HitaSpider(scrapy.Spider):
         print de_flag
         print de_desc
         print de_Keyword
-        print de_ver
+        #print de_ver
 
         line = ''       
         line += de_name + "\n" \
@@ -95,6 +95,7 @@ class HitaSpider(scrapy.Spider):
 
         for i in range(1, int(pageNo)+1):
             url = response.url + "&pageNo=" + str(i)
+            print url
             yield scrapy.Request(url=url,callback=self.parse_value)
 
         print "----------------end--------------------"
@@ -109,20 +110,55 @@ class HitaSpider(scrapy.Spider):
         #print response.xpath('/html/body/div[2]/div[1]/div[2]/table').extract_first()
 
         line = ''
+        ref = ''
         for li in response.xpath('/html/body/div[2]/div[1]/div[2]/table/tbody/tr'):
             #print li.extract()
-            inflag     = li.xpath('td[1]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
-            name       = li.xpath('td[2]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+            inflag = ''
+            try:
+                inflag     = li.xpath('td[1]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+            except:
+                inflag = '-'
+            
+            name = ''
+            try:
+                name       = li.xpath('td[2]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+            except:
+                name = '-'
             outflag    = li.xpath('td[3]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
-            defy       = li.xpath('td[4]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
-            dataType   = li.xpath('td[5]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
-            dataFormat = li.xpath('td[6]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
-            valueAllow = li.xpath('td[7]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+            
+            defy = ''
+            try:
+                defy       = li.xpath('td[4]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+            except:
+                defy = '-'
+            
+            dataType = ''
+            try:
+                dataType   = li.xpath('td[5]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+            except:
+                dataType = '-'
+            
+            dataFormat = ''
+            try:
+                dataFormat = li.xpath('td[6]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+            except:
+                dataFormat = '-'
+            
+            valueAllow = ''
+            try:
+                valueAllow = li.xpath('td[7]/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+                if valueAllow != '-':
+                    try:
+                        valueAllow = li.xpath('td[7]/a/text()').extract_first().strip().replace(' ','').replace('\r\n','')
+                    except:
+                        print 'valueAllow'
+            except:
+                valueAllow = '-'
             if valueAllow != '-':
-                valueAllow = li.xpath('td[7]/a/text()').extract_first().strip().replace(' ','').replace('\r\n','')
-            print inflag
-            print name
-            print li.xpath('td[7]/a/text()').extract_first()
+                ref += valueAllow + "\n"
+                
+            print inflag + name
+            #print li.xpath('td[7]/a/text()').extract_first()
        
             line += inflag + "|" \
                 + name + "|" \
@@ -134,6 +170,8 @@ class HitaSpider(scrapy.Spider):
         filename = response.url.split('=')[2][:9]
         with open( 'DS/' + filename + "_Body.txt","a") as f:
             f.write(line) 
+        with open( 'DS/' + filename + "_Ref.txt","a") as f:
+            f.write(ref) 
         
         ##调用详情页面
         
