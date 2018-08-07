@@ -75,13 +75,39 @@ class HitaSpider(scrapy.Spider):
             f.write(line) 
         
         #调用详情页面
+        #/html/body/div[2]/div[1]/div[2]/table/tr[10]/td/table/tr/td[3]
+        print '----子集----'
+        n = 1
+        zj = ''
+        for sel in response.xpath('/html/body/div[2]/div[1]/div[2]/table/tr[10]/td/table/tr/td[3]/li'):
+            n += 1
+            subname = sel.xpath('a/text()').extract_first()
+            #print subname
+            zj += subname + '\n'
+        print n
+        
+        with open( 'DS/' + de_flag + "_zj.txt","a") as f:
+            f.write(zj) 
 
-        #http://meta.omaha.org.cn/elementOfSetList/get?subset=&dataSetCode=HDSB01.01
-        url = 'http://meta.omaha.org.cn/elementOfSetList/get?subset=&dataSetCode='
-        url += de_flag
-        yield scrapy.Request(url=url, callback=self.parse_page)
+        ##格式化字符串
+        #s = 'ss{g}s'
+        #print s.format(g='k')
 
-        print "-----------parse_detail end-------------"
+        if n>1:
+            for i in range(1, n):
+                print i
+                url = 'http://meta.omaha.org.cn/elementOfSetList/get?subset={s}&dataSetCode='
+                url = url.format(s=i)
+                url += de_flag
+                yield scrapy.Request(url=url, callback=self.parse_page)
+            
+        else:
+            #http://meta.omaha.org.cn/elementOfSetList/get?subset=&dataSetCode=HDSB01.01
+            url = 'http://meta.omaha.org.cn/elementOfSetList/get?subset=&dataSetCode='
+            url += de_flag
+            yield scrapy.Request(url=url, callback=self.parse_page)
+
+        print "---------parse_detail end-----------"
 
 
     def parse_page(self, response):
@@ -166,12 +192,19 @@ class HitaSpider(scrapy.Spider):
                 + defy + "|" \
                 + dataType + "|" \
                 + dataFormat + "|" \
-                + valueAllow + "\n" 
+                + valueAllow + "\n"
+        
+        #处理文件名
         filename = response.url.split('=')[2][:9]
-        with open( 'DS/' + filename + "_Body.txt","a") as f:
-            f.write(line) 
         with open( 'DS/' + filename + "_Ref.txt","a") as f:
             f.write(ref) 
+
+        subset = response.url.split('&')[0].split('?')[1].split('=')
+        if subset[1] != '':
+            filename += '_zj_' + subset[1]
+
+        with open( 'DS/' + filename + "_Body.txt","a") as f:
+            f.write(line) 
         
         ##调用详情页面
         
